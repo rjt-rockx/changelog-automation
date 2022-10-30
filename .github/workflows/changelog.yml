@@ -1,0 +1,17 @@
+name: Changelog Tracking
+run-name: Changelog Tracking
+on: [push]
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get changes
+        id: changeset
+        uses: collin-miller/git-changesets@v0.0.2
+        with:
+          format: "json"
+      - name: List added files
+        run: |
+          echo '${{ steps.changeset.outputs.all }}'

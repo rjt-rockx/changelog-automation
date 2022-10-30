@@ -1,0 +1,2 @@
+# changelog-automation
+ bananas

@@ -23,4 +23,4 @@ jobs:
       - name: Parse changed files
         uses: rjt-rockx/changelog-action@main
         with:
-          file: ${{ steps.changedfiles.outputs.all }}
+          files: ${{ steps.changedfiles.outputs.all }}

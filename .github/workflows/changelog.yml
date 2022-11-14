@@ -27,7 +27,7 @@ jobs:
         uses: rjt-rockx/changelog-action@main
         with:
           files: ${{ steps.changedfiles.outputs.added_modified }}
-          filter: "changelogs/*.md"
+          filter: "changelogs/(.*).md"
       - name: Get latest tag
         id: latesttag
         if: ${{ steps.parsedfiles.latest }}

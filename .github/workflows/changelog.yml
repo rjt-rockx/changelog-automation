@@ -21,6 +21,6 @@ jobs:
         with:
           format: json
       - name: Parse changed files
-        uses: rjt-rockx/changelog-action@master
+        uses: rjt-rockx/changelog-action@main
         with:
           file: ${{ steps.changedfiles.outputs.added_modified }}

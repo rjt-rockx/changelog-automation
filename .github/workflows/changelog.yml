@@ -42,7 +42,7 @@ jobs:
           generate_release_notes: false
       - name: Post to Discord webhook
         uses: tsickert/discord-webhook@v5.3.0
-        if: ${{ success() }}
+        if: ${{ success() && steps.parsedfiles.latest }}
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
           username: Hyperbeam

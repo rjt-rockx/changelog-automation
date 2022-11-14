@@ -7,11 +7,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Get changes
-        id: changeset
+      - name: Setup Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7.16.0
+      - id: changedfiles
+        name: Get changed files
         uses: collin-miller/git-changesets@v1
         with:
-          format: "json"
-      - name: List added files
-        run: |
-          echo '${{ steps.changeset.outputs.all }}'
+          format: json
+      - name: Parse changed files
+        uses: rjt-rockx/changelog-action@master
+        with:
+          file: ${{ steps.changedfiles.outputs.added_modified }}

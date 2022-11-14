@@ -4,6 +4,8 @@ on: [push]
 jobs:
   track:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -21,6 +23,28 @@ jobs:
         with:
           format: json
       - name: Parse changed files
+        id: parsedfiles
         uses: rjt-rockx/changelog-action@main
         with:
           files: ${{ steps.changedfiles.outputs.added_modified }}
+          filter: "changelogs/*.md"
+      - name: Get latest tag
+        id: latesttag
+        if: ${{ steps.parsedfiles.latest }}
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+        with:
+          fallback: ${{ steps.parsedfiles.latest }}
+      - name: Create Github release
+        uses: softprops/action-gh-release@v0.1.14
+        if: ${{ success() && steps.latesttag.tag != steps.parsedfiles.latest }}
+        with:
+          body: ${{ steps.parsedfiles.content }}
+          generate_release_notes: false
+      - name: Post to Discord webhook
+        uses: tsickert/discord-webhook@v5.3.0
+        if: ${{ success() }}
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          username: Hyperbeam
+          embed-title: Changelog ${{ steps.parsedfiles.latest }}
+          embed-description: ${{ steps.parsedfiles.content }}

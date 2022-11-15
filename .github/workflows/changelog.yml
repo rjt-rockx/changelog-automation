@@ -37,6 +37,7 @@ jobs:
         if: ${{ success() && steps.latesttag.outputs.tag != steps.parsedfiles.outputs.latest }}
         with:
           body: ${{ steps.parsedfiles.outputs.content }}
+          tag_name: ${{ steps.parsedfiles.outputs.latest }}
           generate_release_notes: false
       - name: Post to Discord webhook
         uses: tsickert/discord-webhook@v5.3.0

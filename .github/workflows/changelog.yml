@@ -47,5 +47,5 @@ jobs:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
           username: Hyperbeam
           embed-title: Changelog ${{ steps.parsedfiles.outputs.latest }}
-          embed-description: ${{ fromJSON(steps.parsedfiles.outputs.sections)["Changelog"].children["Summary"].content }}
+          embed-description: ${{ fromJSON(steps.parsedfiles.outputs.sections).Changelog.children.Summary.content }}
           embed-url: ${{ steps.ghrelease.outputs.url }}

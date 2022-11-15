@@ -33,6 +33,7 @@ jobs:
         if: ${{ steps.parsedfiles.outputs.latest }}
         uses: WyriHaximus/github-action-get-previous-tag@v1
       - name: Create Github release
+        id: ghrelease
         uses: softprops/action-gh-release@v0.1.14
         if: ${{ success() && steps.latesttag.outputs.tag != steps.parsedfiles.outputs.latest }}
         with:
@@ -46,4 +47,5 @@ jobs:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
           username: Hyperbeam
           embed-title: Changelog ${{ steps.parsedfiles.outputs.latest }}
-          embed-description: ${{ steps.parsedfiles.outputs.content }}
+          embed-description: ${{ steps.parsedfiles.outputs.sections["Changelog"].children["Summary"].content }}
+          embed-url: ${{ steps.ghrelease.outputs.url }}
